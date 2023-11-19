@@ -1,14 +1,34 @@
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Button,
+} from "react-native";
+import React, { useLayoutEffect } from "react";
 import { MEALS } from "../data/dummy-data";
 import MealDetail from "../components/MealDetail";
 import SubTitle from "../components/MealDetails/SubTitle";
 import List from "../components/MealDetails/List";
 
-const MealDetailsScreen = ({ route }) => {
+const MealDetailsScreen = ({ route, navigation }) => {
   const mealId = route.params.mealId;
 
   const selectMeal = MEALS.find((meal) => meal.id === mealId);
+
+  const pressedHandler = () => {
+    console.log("pressed");
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <Button title="Tab me" onPress={pressedHandler} />;
+      },
+    });
+  }, [navigation, pressedHandler]);
+
   return (
     <ScrollView style={styles.rootCtn}>
       <Image source={{ uri: selectMeal.imageUrl }} style={styles.image} />
@@ -19,8 +39,8 @@ const MealDetailsScreen = ({ route }) => {
         affordability={selectMeal.affordability}
         textStyle={styles.mealDetailText}
       />
-      <View>
-        <View>
+      <View style={styles.outerListCtn}>
+        <View style={styles.innerListCtn}>
           <SubTitle>Ingredients</SubTitle>
           <List data={selectMeal.ingredients} />
           <SubTitle>Steps</SubTitle>
@@ -51,5 +71,11 @@ const styles = StyleSheet.create({
   },
   mealDetailText: {
     color: "#fff",
+  },
+  outerListCtn: {
+    alignItems: "center",
+  },
+  innerListCtn: {
+    width: "80%",
   },
 });
