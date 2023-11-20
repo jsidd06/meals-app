@@ -7,6 +7,7 @@ import CategoriesScreen from "./src/screens/CategoriesScreen";
 import MealsOverViewScreen from "./src/screens/MealsOverViewScreen";
 import MealDetailsScreen from "./src/screens/MealDetails";
 import FavoriteScreen from "./src/screens/FavoriteScreen";
+import FavoritesContextProvider from "./src/store/context/Favorite-context";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -51,29 +52,34 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "#351401" },
-            headerTintColor: "#fff",
-            cardStyle: { backgroundColor: "#3f2f25" },
-          }}
-        >
-          <Stack.Screen
-            options={{
-              headerShown: false,
+      <FavoritesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "#351401" },
+              headerTintColor: "#fff",
+              cardStyle: { backgroundColor: "#3f2f25" },
             }}
-            name="Drawer"
-            component={DrawerNavigator}
-          />
-          <Stack.Screen name="MealsOverView" component={MealsOverViewScreen} />
-          <Stack.Screen
-            name="MealDetails"
-            component={MealDetailsScreen}
-            options={{ title: "About the Meal" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Drawer"
+              component={DrawerNavigator}
+            />
+            <Stack.Screen
+              name="MealsOverView"
+              component={MealsOverViewScreen}
+            />
+            <Stack.Screen
+              name="MealDetails"
+              component={MealDetailsScreen}
+              options={{ title: "About the Meal" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavoritesContextProvider>
     </>
   );
 }
